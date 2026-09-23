@@ -1,4 +1,5 @@
 import bot from "../lib/bot.js";
+import { logEvent } from "../lib/sheets.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -15,6 +16,7 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error(error);
+    await logEvent("webhook_error", error.message);
 
     return res.status(500).json({
       error: error.message,
